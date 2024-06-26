@@ -9,7 +9,13 @@ export const postApi = createApi({
       getPosts: builder.query({
          query: () => "/posts",
       }),
+      getUsers: builder.query({
+         query: () => "/users",
+      }),
+      getAlboms: builder.query({
+         query: () => "/albums",
+      }),
    }),
 });
 
-export const { useGetPostsQuery } = postApi
+export const { useGetPostsQuery, useGetUsersQuery, useGetAlbomsQuery } = postApi
