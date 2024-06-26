@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Card, Checkbox, Tooltip } from "antd";
 const { Meta } = Card;
-const CardItem = () => {
+const CardItem = ({ item }) => {
   return (
     <div className="flex justify-center">
       <Card
@@ -43,19 +43,18 @@ const CardItem = () => {
           avatar={
             <Avatar
               style={{ backgroundColor: "#87d068", verticalAlign: "middle" }}
-              src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+              src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${item.id}`}
             />
           }
           title={
             <div>
-              <h2>Card title</h2>
+              <h2>{item.title}</h2>
               <h1 style={{ color: "#87CEEB" }} className="text-xs">
                 @Card title
               </h1>
             </div>
           }
-          description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae tempore corporis architecto veritatis magni excepturi."
-        />
+description={item.body}        />
       </Card>
     </div>
   );
