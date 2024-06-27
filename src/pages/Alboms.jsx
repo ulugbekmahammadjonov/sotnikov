@@ -15,7 +15,7 @@ const Alboms = () => {
   const { data: alboms } = useGetAlbomsQuery()
   const { data: users } = useGetUsersQuery()
   return (
-    <div>
+    <div className='container'>
       <Header Header={AlbomHeader} />
       <CardList data={alboms} users={users}/>
     </div>

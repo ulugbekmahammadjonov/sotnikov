@@ -1,9 +1,9 @@
 import React from 'react'
 import Header from '../components/Header'
-import CardItem from '../components/CardItem'
+
 import CardList from '../components/CardList'
 
-import { useGetPostsQuery, useGetUsersQuery } from '../app/services/PostApi'
+import { useGetPostsQuery, useGetUsersQuery, } from '../app/services/PostApi'
 const PostHeader = {
   title: 'Posts',
   isAdd: true,
@@ -14,11 +14,12 @@ const PostHeader = {
 const Posts = () => {
   const { data: posts } = useGetPostsQuery()
   const { data: users } = useGetUsersQuery()
+ 
   return (
-    <div className=''>
+    <div className='container'>
       <Header Header={PostHeader} />
 
-      {posts && <CardList data={posts} users={users} />}
+      {posts && <CardList data={posts} users={users}  />}
     </div>
   )
 }
