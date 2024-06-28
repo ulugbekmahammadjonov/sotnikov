@@ -36,10 +36,9 @@ const ModalForm = ({ btnText, isEdit, postData }) => {
   const handleSave = async (values) => {
     const { title, body, user } = values;
     try {
-      
-        await editPost({ id: postData.id, title, body, user, url });
-        message.success("Post successfully edited!");
-        setIsModalOpen(false);
+      await editPost({ id: postData.id, title, body, user, url });
+      message.success("Post successfully edited!");
+      setIsModalOpen(false);
     } catch (error) {
       message.error("Failed to save post!");
     }
@@ -48,9 +47,7 @@ const ModalForm = ({ btnText, isEdit, postData }) => {
   return (
     <div>
       <Tooltip title={isEdit ? "Edit" : "Add"} color="blue">
-      <Button  onClick={showModal}>
-        {btnText}
-      </Button>
+        <Button onClick={showModal}>{btnText}</Button>
       </Tooltip>
       <Modal
         title={isEdit ? "Edit Post" : "Add Post"}
@@ -77,13 +74,15 @@ const ModalForm = ({ btnText, isEdit, postData }) => {
           >
             <Input />
           </Form.Item>
-         {url === "/posts" && <Form.Item
-            label="Body"
-            name="body"
-            rules={[{ required: true, message: "Please input the body!" }]}
-          >
-            <TextArea rows={4} />
-          </Form.Item>}
+          {url === "/posts" && (
+            <Form.Item
+              label="Body"
+              name="body"
+              rules={[{ required: true, message: "Please input the body!" }]}
+            >
+              <TextArea rows={4} />
+            </Form.Item>
+          )}
           <Form.Item
             label="User"
             name="user"

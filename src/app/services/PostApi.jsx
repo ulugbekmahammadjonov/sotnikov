@@ -28,13 +28,21 @@ export const postApi = createApi({
       }),
       invalidatesTags: ["postlar"],
     }),
-     editPost: builder.mutation({
-         query: ({ id, title, body, user, url }) => ({
-            url: `${url}/${id}`,
-            method: "PUT",
-            body: { title, body, userId: user },
-         }),
-     }),
+    editPost: builder.mutation({
+      query: ({ id, title, body, user, url }) => ({
+        url: `${url}/${id}`,
+        method: "PUT",
+        body: { title, body, userId: user },
+      }),
+      invalidatesTags: ["postlar"],
+    }),
+    deletePost: builder.mutation({
+      query: ({ id, url }) => ({
+        url: `${url}/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["postlar"],
+    }),
   }),
 });
 
@@ -44,5 +52,6 @@ export const {
   useGetAlbomsQuery,
   useGetCommentsQuery,
   useAddPostMutation,
-  useEditPostMutation
+  useEditPostMutation,
+  useDeletePostMutation,
 } = postApi;

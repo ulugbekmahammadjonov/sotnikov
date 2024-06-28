@@ -6,8 +6,12 @@ import {
   StarOutlined,
   StarFilled,
 } from "@ant-design/icons";
-import { Avatar, Button, Card, Checkbox, Tooltip } from "antd";
-import { useGetCommentsQuery, useGetPostsQuery } from "../app/services/PostApi";
+import { Avatar, Button, Card, Checkbox, Tooltip, message } from "antd";
+import {
+  useGetCommentsQuery,
+  useGetPostsQuery,
+  useDeletePostMutation,
+} from "../app/services/PostApi";
 import EditModal from "./UI/EditModal";
 const { Meta } = Card;
 const CardItem = ({ item, users }) => {
@@ -17,6 +21,22 @@ const CardItem = ({ item, users }) => {
   const [isComment, setIsComment] = useState(false);
   const handleComment = () => {
     setIsComment(!isComment);
+  };
+  const [deletePost] = useDeletePostMutation();
+  const url = location.pathname;
+  const handleDeletePost = async (id) => {
+    try {
+      await deletePost({ id, url });
+      message.success("Post successfully deleted");
+    } catch (error) {
+      message.error("Failed to delete post");
+    }
+
+    // 2
+    // deletePost(id, url)
+    //   .unwrap()
+    //   .then((res) => {})
+    //   .catch((err) => {});
   };
   return (
     <div className="flex  flex-col">
@@ -42,7 +62,11 @@ const CardItem = ({ item, users }) => {
             btnText={<EditOutlined key="edit" style={{ fontSize: "20px" }} />}
             postData={item}
           />,
-          <Button>
+          <Button
+            onClick={() => {
+              handleDeletePost(item.id);
+            }}
+          >
             <Tooltip title="Delete" color="red">
               <DeleteOutlined key="delete" style={{ fontSize: "20px" }} />
             </Tooltip>
