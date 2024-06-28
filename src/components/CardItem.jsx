@@ -6,11 +6,13 @@ import {
   StarOutlined,
   StarFilled,
 } from "@ant-design/icons";
-import { Avatar, Card, Checkbox, Tooltip } from "antd";
-import { useGetCommentsQuery } from "../app/services/PostApi";
+import { Avatar, Button, Card, Checkbox, Tooltip } from "antd";
+import { useGetCommentsQuery, useGetPostsQuery } from "../app/services/PostApi";
+import EditModal from "./UI/EditModal";
 const { Meta } = Card;
 const CardItem = ({ item, users }) => {
   const { data: comments } = useGetCommentsQuery();
+  const { data: posts } = useGetPostsQuery();
   const random = Math.floor(Math.random() * users?.length) + 1;
   const [isComment, setIsComment] = useState(false);
   const handleComment = () => {
@@ -24,36 +26,42 @@ const CardItem = ({ item, users }) => {
         }}
         actions={[
           item.body && (
-            <Tooltip title="Comments" color="purple">
-              <CommentOutlined
-                onClick={handleComment}
-                style={{ fontSize: "20px" }}
-                key="comment"
-              />
-            </Tooltip>
+            <Button>
+              <Tooltip title="Comments" color="purple">
+                <CommentOutlined
+                  onClick={handleComment}
+                  style={{ fontSize: "20px" }}
+                  key="comment"
+                />
+              </Tooltip>
+            </Button>
           ),
 
-          <Tooltip title="Edit" color="blue">
-            <EditOutlined key="edit" style={{ fontSize: "20px" }} />
-          </Tooltip>,
-
-          <Tooltip title="Delete" color="red">
-            <DeleteOutlined key="delete" style={{ fontSize: "20px" }} />
-          </Tooltip>,
-
-          <Tooltip title="Star" color="orange">
-            <StarOutlined key="star" style={{ fontSize: "20px" }} />
-          </Tooltip>,
-
-          <Tooltip title="Mark" color="blue">
-            <Checkbox
-              style={{ width: "24px", height: "24px" }}
-              defaultChecked={false}
-              onChange={() => {
-                console.log("checked");
-              }}
-            />
-          </Tooltip>,
+          <EditModal
+            isEdit={true}
+            btnText={<EditOutlined key="edit" style={{ fontSize: "20px" }} />}
+            postData={item}
+          />,
+          <Button>
+            <Tooltip title="Delete" color="red">
+              <DeleteOutlined key="delete" style={{ fontSize: "20px" }} />
+            </Tooltip>
+          </Button>,
+          <Button>
+            <Tooltip title="Star" color="orange">
+              <StarOutlined
+                key="star"
+                style={{ fontSize: "20px", margin: "0" }}
+              />
+            </Tooltip>
+            ,
+          </Button>,
+          <Button style={{ textAlign: "center" }}>
+            <Tooltip title="Check" color="blue">
+              <Checkbox defaultChecked={false} />
+            </Tooltip>
+            ,
+          </Button>,
         ].filter(Boolean)}
       >
         <Meta

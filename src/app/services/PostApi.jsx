@@ -28,6 +28,13 @@ export const postApi = createApi({
       }),
       invalidatesTags: ["postlar"],
     }),
+     editPost: builder.mutation({
+         query: ({ id, title, body, user, url }) => ({
+            url: `${url}/${id}`,
+            method: "PUT",
+            body: { title, body, userId: user },
+         }),
+     }),
   }),
 });
 
@@ -37,4 +44,5 @@ export const {
   useGetAlbomsQuery,
   useGetCommentsQuery,
   useAddPostMutation,
+  useEditPostMutation
 } = postApi;
