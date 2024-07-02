@@ -2,13 +2,14 @@ import Navbar from './components/Navbar'
 
 import Routers from './routers/Routers'
 
-function App() {
 
+function App() {
+    
   return (
-    <div className="">
+    <>
       <Navbar />
       <Routers />
-    </div>
+    </>
   )
 }
 

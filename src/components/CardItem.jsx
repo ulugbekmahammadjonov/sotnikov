@@ -13,17 +13,27 @@ import {
   useDeletePostMutation,
 } from "../app/services/PostApi";
 import EditModal from "./UI/EditModal";
+
 const { Meta } = Card;
+
 const CardItem = ({ item, users }) => {
   const { data: comments } = useGetCommentsQuery();
   const { data: posts } = useGetPostsQuery();
   const random = Math.floor(Math.random() * users?.length) + 1;
   const [isComment, setIsComment] = useState(false);
+  const [isStarred, setIsStarred] = useState(false); // State for star icon
+
   const handleComment = () => {
     setIsComment(!isComment);
   };
+
+  const handleStarClick = () => {
+    setIsStarred(!isStarred);
+  };
+
   const [deletePost] = useDeletePostMutation();
   const url = location.pathname;
+
   const handleDeletePost = async (id) => {
     try {
       await deletePost({ id, url });
@@ -31,13 +41,8 @@ const CardItem = ({ item, users }) => {
     } catch (error) {
       message.error("Failed to delete post");
     }
-
-    // 2
-    // deletePost(id, url)
-    //   .unwrap()
-    //   .then((res) => {})
-    //   .catch((err) => {});
   };
+
   return (
     <div className="flex  flex-col">
       <Card
@@ -71,20 +76,25 @@ const CardItem = ({ item, users }) => {
               <DeleteOutlined key="delete" style={{ fontSize: "20px" }} />
             </Tooltip>
           </Button>,
-          <Button>
+          <Button onClick={handleStarClick}>
             <Tooltip title="Star" color="orange">
-              <StarOutlined
-                key="star"
-                style={{ fontSize: "20px", margin: "0" }}
-              />
+              {isStarred ? (
+                <StarFilled
+                  key="star"
+                  style={{ fontSize: "20px", margin: "0", color: "orange" }}
+                />
+              ) : (
+                <StarOutlined
+                  key="star"
+                  style={{ fontSize: "20px", margin: "0" }}
+                />
+              )}
             </Tooltip>
-            ,
           </Button>,
           <Button style={{ textAlign: "center" }}>
             <Tooltip title="Check" color="blue">
               <Checkbox defaultChecked={false} />
             </Tooltip>
-            ,
           </Button>,
         ].filter(Boolean)}
       >

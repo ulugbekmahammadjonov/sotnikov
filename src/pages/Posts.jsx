@@ -1,27 +1,40 @@
-import React from 'react'
-import Header from '../components/Header'
+// Posts.js
+import React, { useEffect, useContext } from "react";
+import Header from "../components/Header";
+import CardList from "../components/CardList";
+import { useGetPostsQuery, useGetUsersQuery } from "../app/services/PostApi";
+import { Context } from "../context";
 
-import CardList from '../components/CardList'
-
-import { useGetPostsQuery, useGetUsersQuery, } from '../app/services/PostApi'
 const PostHeader = {
-  title: 'Posts',
+  title: "Posts",
   isAdd: true,
   isSearch: true,
   isSelectUser: true,
-  isSwitch:true,
-}
+  isSwitch: true,
+};
+
 const Posts = () => {
-  const { data: posts } = useGetPostsQuery()
-  const { data: users } = useGetUsersQuery()
- 
+  const { state, dispatch } = useContext(Context);
+  const { data: posts } = useGetPostsQuery();
+  const { data: users } = useGetUsersQuery();
+
+  useEffect(() => {
+    if (posts) {
+      dispatch({ type: "SET_DATA", payload: posts });
+    }
+    if (users) {
+      dispatch({ type: "SET_USERS", payload: users });
+    }
+  }, [posts, users, dispatch]);
+
   return (
-    <div className='container'>
+    <div className="container">
       <Header Header={PostHeader} />
-
-      {posts && <CardList data={posts} users={users}  />}
+      <CardList
+        data={state.filteredData.length > 0 ? state.filteredData : state.data}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Posts
+export default Posts;
